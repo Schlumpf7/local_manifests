@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<manifest>
-  <project name="LineageOS/android_hardware_samsung" path="hardware/samsung" remote="github" revision="lineage-17.1" />
-  <project name="LineageOS/android_hardware_sony_timekeep" path="hardware/sony/timekeep" remote="github" revision="lineage-17.1" />
-  <project name="team-infusion-developers/android_device_samsung_gts210vewifi" path="device/samsung/gts210vewifi" remote="github" revision="lineage-17.1" />
-  <project name="team-infusion-developers/android_device_samsung_team-infusion-developers" path="device/samsung/team-infusion-developers" remote="github" revision="lineage-17.1" />
-  <project name="team-infusion-developers/android_kernel_samsung_msm8976" path="kernel/samsung/msm8976" remote="github" revision="lineage-17.1" />
-  <project name="team-infusion-developers/proprietary_vendor_samsung_msm8976" path="vendor/samsung" remote="github" revision="lineage-17.1" />
-</manifest>
