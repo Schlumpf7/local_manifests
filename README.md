@@ -99,6 +99,10 @@ croot
 repopick -t R_asb_2025-03
 repo sync --force-sync external/dng_sdk
 
+cd kernel/samsung/msm8976
+patch -p1 < ~/Downloads/msm8976-kernel-april-15.diff
+croot
+
 #Edit the kernel (comment out wireguard stuff)
 #finally build the thing.
 
