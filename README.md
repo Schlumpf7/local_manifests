@@ -15,6 +15,7 @@ cd ~/android/lineage
 repo init -u https://github.com/LineageOS/android.git -b lineage-18.1
 
 #Get the device manifest file and put it in ~/android/lineage/.repo/local_manifests/
+git clone https://github.com/Schlumpf7/local_manifests.git -b lineage-18.1 ~/~/android/lineage/.repo/local_manifests
 
 #Turn on caching to speed up build.
 mkdir ~/ccache
@@ -71,7 +72,7 @@ repopick -t R_asb_2024-10
 repopick -f 408436
 cd .repo/manifests
 git stash --include-untracked
-patch -p1 < ~/Downloads/181-manifests/181-nov-2024-mani.diff
+patch -p1 < ~/Downloads/local_manifests/Patches/181-nov-2024-mani.diff
 croot
 
 repopick -t R_asb_2024-11
@@ -82,7 +83,7 @@ repopick -t R_asb_2024-12
 repopick -f 415707
 cd .repo/manifests
 git stash --include-untracked
-patch -p1 < ~/Downloads/181-manifests/181-jan-2025-mani.diff
+patch -p1 < ~/Downloads/local_manifests/Patches/181-jan-2025-mani.diff
 croot
 
 repopick -t R_asb_2025-01
@@ -93,14 +94,14 @@ repopick -t R_asb_2025-02
 repopick -f 421145
 cd .repo/manifests
 git stash --include-untracked
-patch -p1 < ~/Downloads/181-manifests/181-mar-2025-mani.diff
+patch -p1 < ~/Downloads/local_manifests/Patches/181-mar-2025-mani.diff
 croot
 
 repopick -t R_asb_2025-03
 repo sync --force-sync external/dng_sdk
 
 cd kernel/samsung/msm8976
-patch -p1 < ~/Downloads/msm8976-kernel-april-15.diff
+patch -p1 < ~/Downloads/local_manifests/Patches/msm8976-kernel-april-15.diff
 croot
 
 #Edit the kernel (comment out wireguard stuff)
