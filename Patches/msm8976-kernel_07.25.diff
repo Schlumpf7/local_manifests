@@ -1,0 +1,59 @@
+diff --git a/Makefile b/Makefile
+index cfcff52d01a..1eadcc6419a 100644
+--- a/Makefile
++++ b/Makefile
+@@ -117,9 +117,10 @@ ifneq ($(KBUILD_OUTPUT),)
+ # Invoke a second make in the output directory, passing relevant variables
+ # check that the output directory actually exists
+ saved-output := $(KBUILD_OUTPUT)
+-KBUILD_OUTPUT := $(shell cd $(KBUILD_OUTPUT) && /bin/pwd)
++KBUILD_OUTPUT := $(shell mkdir -p $(KBUILD_OUTPUT) && cd $(KBUILD_OUTPUT) \
++								&& /bin/pwd)
+ $(if $(KBUILD_OUTPUT),, \
+-     $(error output directory "$(saved-output)" does not exist))
++     $(error failed to create output directory "$(saved-output)"))
+ 
+ PHONY += $(MAKECMDGOALS) sub-make
+ 
+diff --git a/arch/arm64/configs/gts28velte_defconfig b/arch/arm64/configs/gts28velte_defconfig
+index b2604ce3cd3..c2ca8c95208 100644
+--- a/arch/arm64/configs/gts28velte_defconfig
++++ b/arch/arm64/configs/gts28velte_defconfig
+@@ -544,7 +544,10 @@ CONFIG_ANDROID_LOW_MEMORY_KILLER=y
+ CONFIG_ANDROID_INTF_ALARM_DEV=y
+ CONFIG_ION=y
+ CONFIG_ION_MSM=y
+-CONFIG_VNSWAP=y
++#CONFIG_VNSWAP=y
++CONFIG_SWAP=y
++CONFIG_ZRAM=y
++CONFIG_ZRAM_LZ4_COMPRESS=y
+ CONFIG_SPS=y
+ CONFIG_USB_BAM=y
+ CONFIG_SPS_SUPPORT_NDP_BAM=y
+diff --git a/net/Kconfig b/net/Kconfig
+index d84c2bcf69c..9217118f3a2 100644
+--- a/net/Kconfig
++++ b/net/Kconfig
+@@ -75,7 +75,7 @@ config INET
+ 	  Short answer: say Y.
+ 
+ if INET
+-source "net/wireguard/src/Kconfig"
++#source "net/wireguard/src/Kconfig"
+ source "net/ipv4/Kconfig"
+ source "net/ipv6/Kconfig"
+ source "net/netlabel/Kconfig"
+diff --git a/net/Makefile b/net/Makefile
+index 14bd7a3fd85..a5568811a86 100644
+--- a/net/Makefile
++++ b/net/Makefile
+@@ -16,7 +16,7 @@ obj-$(CONFIG_NET)		+= $(tmp-y)
+ obj-$(CONFIG_LLC)		+= llc/
+ obj-$(CONFIG_NET)		+= ethernet/ 802/ sched/ netlink/
+ obj-$(CONFIG_NETFILTER)		+= netfilter/
+-obj-$(CONFIG_WIREGUARD)		+= wireguard/src/
++#obj-$(CONFIG_WIREGUARD)		+= wireguard/src/
+ obj-$(CONFIG_INET)		+= ipv4/
+ obj-$(CONFIG_XFRM)		+= xfrm/
+ obj-$(CONFIG_UNIX)		+= unix/
