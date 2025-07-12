@@ -103,7 +103,7 @@ repo sync --force-sync external/dng_sdk
 #Edit the kernel
 
 cd kernel/samsung/msm8976
-patch -p1 <  ~/Downloads/local_manifests/.repo/local_manifests/Patches/msm8976-kernel-april-15.diff
+patch -p1 <  ~/Downloads/local_manifests/Patches/msm8976-kernel_07.25.diff
 croot
 
 #Optinal include microg and fdroid

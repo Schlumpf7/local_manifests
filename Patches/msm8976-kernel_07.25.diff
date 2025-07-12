@@ -16,10 +16,47 @@ index cfcff52d01a..1eadcc6419a 100644
  PHONY += $(MAKECMDGOALS) sub-make
  
 diff --git a/arch/arm64/configs/gts28velte_defconfig b/arch/arm64/configs/gts28velte_defconfig
-index b2604ce3cd3..c2ca8c95208 100644
+index b2604ce3cd3..aa92cf1fe4e 100644
 --- a/arch/arm64/configs/gts28velte_defconfig
 +++ b/arch/arm64/configs/gts28velte_defconfig
-@@ -544,7 +544,10 @@ CONFIG_ANDROID_LOW_MEMORY_KILLER=y
+@@ -1,4 +1,27 @@
++# needed for
++# system_server: Could not open /proc/config.gz
++# signal 6 (SIGABRT), code -1 (SI_QUEUE), fault addr --------
++# Abort message: 'Check failed: result == OK Kernel configs could not be fetched. b/151092221'
++
++CONFIG_IKCONFIG=y
++CONFIG_IKCONFIG_PROC=y
++CONFIG_PROC_FS=y
++
++# Xbox
++CONFIG_INPUT_JOYSTICK=y
++CONFIG_JOYSTICK_XPAD=y
++CONFIG_JOYSTICK_XPAD_FF=y
++CONFIG_JOYSTICK_XPAD_LEDS=y
++CONFIG_USB_ARCH_HAS_HCD=y
++CONFIG_LEDS_CLASS=y
++
++#
++# Input device support
++#
++CONFIG_INPUT=y
++CONFIG_INPUT_FF_MEMLESS=y
+ CONFIG_SYSVIPC=y
++
+ CONFIG_AUDIT=y
+ CONFIG_NO_HZ=y
+ CONFIG_HIGH_RES_TIMERS=y
+@@ -10,7 +33,7 @@ CONFIG_CPUSETS=y
+ CONFIG_CGROUP_CPUACCT=y
+ CONFIG_RESOURCE_COUNTERS=y
+ CONFIG_CGROUP_SCHED=y
+-CONFIG_RT_GROUP_SCHED=y
++#CONFIG_RT_GROUP_SCHED=y
+ CONFIG_SCHED_HMP=y
+ CONFIG_SCHED_TASK_BEHAVIOR=y
+ CONFIG_NAMESPACES=y
+@@ -544,7 +567,10 @@ CONFIG_ANDROID_LOW_MEMORY_KILLER=y
  CONFIG_ANDROID_INTF_ALARM_DEV=y
  CONFIG_ION=y
  CONFIG_ION_MSM=y
@@ -57,3 +94,41 @@ index 14bd7a3fd85..a5568811a86 100644
  obj-$(CONFIG_INET)		+= ipv4/
  obj-$(CONFIG_XFRM)		+= xfrm/
  obj-$(CONFIG_UNIX)		+= unix/
+diff --git a/scripts/dtc/dtc-lexer.l b/scripts/dtc/dtc-lexer.l
+index 3b41bfca636..9b9c29e6f31 100644
+--- a/scripts/dtc/dtc-lexer.l
++++ b/scripts/dtc/dtc-lexer.l
+@@ -39,7 +39,7 @@ LINECOMMENT	"//".*\n
+ #include "srcpos.h"
+ #include "dtc-parser.tab.h"
+ 
+-YYLTYPE yylloc;
++extern YYLTYPE yylloc;
+ 
+ /* CAUTION: this will stop working if we ever use yyless() or yyunput() */
+ #define	YY_USER_ACTION \
+diff --git a/scripts/dtc/dtc-lexer.lex.c_shipped b/scripts/dtc/dtc-lexer.lex.c_shipped
+index 2d30f41778b..d0eb405cb81 100644
+--- a/scripts/dtc/dtc-lexer.lex.c_shipped
++++ b/scripts/dtc/dtc-lexer.lex.c_shipped
+@@ -637,7 +637,7 @@ char *yytext;
+ #include "srcpos.h"
+ #include "dtc-parser.tab.h"
+ 
+-YYLTYPE yylloc;
++extern YYLTYPE yylloc;
+ 
+ /* CAUTION: this will stop working if we ever use yyless() or yyunput() */
+ #define	YY_USER_ACTION \
+diff --git a/scripts/extract-ikconfig b/scripts/extract-ikconfig
+index e1862429ccd..3b42f255e2b 100755
+--- a/scripts/extract-ikconfig
++++ b/scripts/extract-ikconfig
+@@ -61,6 +61,7 @@ try_decompress '\3757zXZ\000' abcde unxz
+ try_decompress 'BZh'          xy    bunzip2
+ try_decompress '\135\0\0\0'   xxx   unlzma
+ try_decompress '\211\114\132' xy    'lzop -d'
++try_decompress '\002\041\114\030' xyy 'lz4 -d -l'
+ 
+ # Bail out:
+ echo "$me: Cannot find kernel config." >&2
